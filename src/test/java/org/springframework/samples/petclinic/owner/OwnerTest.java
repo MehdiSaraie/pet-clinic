@@ -30,30 +30,59 @@ class OwnerTest {
 	}
 
 
+	//getOwner
 	@Test
 	void testForOwnerOfAddedPet() {
 		assertEquals(pet1.getOwner() , owner);
 	}
 
+	//getPet with 1 parameter
 	@Test
 	void testForGetPetNameOnly() {
 		assertNotNull(owner.getPet("pet2"));
 	}
 
+	//getPet with 2 parameters
 	@Test
 	void testForGetPet() {
 		assertNull(owner.getPet("pet1",true));
 	}
 
+	//removePet
 	@Test
 	void testForRemovePet(){
 		owner.removePet(pet2);
 		assertFalse(owner.getPetsInternal().contains(pet2));
 	}
 
+	//getPets
 	@Test
 	void testForGetPetsIsSorted() {
 		List<Pet> list = owner.getPets();
 		assertEquals(list.get(0), pet1);
+	}
+
+	//getAddress
+	@Test
+	void testForAddressSetter() {
+		String address = "azadi";
+		owner.setAddress(address);
+		assertEquals(address, owner.getAddress());
+	}
+
+	//getCity
+	@Test
+	void testForCitySetter() {
+		String city = "tehran";
+		owner.setCity(city);
+		assertEquals(city, owner.getCity());
+	}
+
+	//getTelephone
+	@Test
+	void testForGetTelephone() {
+		String tel = "09123456789";
+		owner.setTelephone(tel);
+		assertEquals(tel, owner.getTelephone());
 	}
 }
