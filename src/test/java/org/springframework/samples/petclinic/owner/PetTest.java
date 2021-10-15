@@ -5,7 +5,10 @@ import org.springframework.samples.petclinic.visit.Visit;
 
 import java.time.LocalDate;
 
-class PetTest {
+public class PetTest {
 
-	// todo
+	@Test
+	public void getVisitsTest(){
+
+	}
 }
