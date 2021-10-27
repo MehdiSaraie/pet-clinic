@@ -6,13 +6,17 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.samples.petclinic.utility.SimpleDI;
+import org.springframework.samples.petclinic.visit.Visit;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import java.util.*;
 
 class PetManagerTest {
 
@@ -75,12 +79,31 @@ class PetManagerTest {
 	}
 
 
-	//spy
+	//mock & behavior & classical
 	@Test
 	void testFindOwner() {
-		int id  = 1;
-		petManager.findOwner(id);
-		Mockito.verify(spyOwnerRepository).findById(id);
+		int id = 1;
+		Owner owner = new Owner();
+		owner.setId(id);
+		ownerRepository.save(owner);
+		OwnerRepository mockOwnerRepository = mock(OwnerRepository.class);
+		when(mockOwnerRepository.findById(id)).thenReturn(owner);
+		petManager = new PetManager(petTimedCache, mockOwnerRepository, loggerConfig.getLogger());
+		assertEquals(petManager.findOwner(id), owner);
+		Mockito.verify(mockOwnerRepository).findById(id);
+	}
+
+	//mock & state & classical (Question 3)
+	@Test
+	void testFindOwnerState(){
+		int id = 1;
+		Owner owner = new Owner();
+		owner.setId(id);
+		ownerRepository.save(owner);
+		OwnerRepository mockOwnerRepository = mock(OwnerRepository.class);
+		when(mockOwnerRepository.findById(id)).thenReturn(owner);
+		petManager = new PetManager(petTimedCache, mockOwnerRepository, loggerConfig.getLogger());
+		assertEquals(petManager.findOwner(id), owner);
 	}
 
 	//stub state Classical
@@ -111,7 +134,7 @@ class PetManagerTest {
 		assertEquals(pet.getId(), id);
 	}
 
-	//Spy & Mock Mockisty Behavior
+	//Spy & Mock Mockisty & Behavior
 	@Test
 	void testSavePet() {
 		Owner owner = new Owner();
@@ -128,6 +151,7 @@ class PetManagerTest {
 		Mockito.verify(spyPetTimedCache).save(mockPet);
 	}
 
+	//mock & state & mockisty
 	@Test
 	void testGetOwnerPets() {
 
@@ -143,5 +167,43 @@ class PetManagerTest {
 		petManager = new PetManager(petTimedCache, mockOwnerRepository, loggerConfig.getLogger());
 
 		assertEquals(owner.getPets(), petManager.getOwnerPets(ownerId));
+	}
+
+	//mock & state & mockisty
+	@Test
+	void testGetOwnerPetTypes() {
+		int ownerId = 1;
+		Owner owner = new Owner();
+		owner.setId(ownerId);
+		Pet pet = new Pet();
+		PetType petType = new PetType();
+		petType.setName("dog");
+		pet.setType(petType);
+		owner.addPet(pet);
+		OwnerRepository mockOwnerRepository = mock(OwnerRepository.class);
+		when(mockOwnerRepository.findById(ownerId)).thenReturn(owner);
+		petManager = new PetManager(petTimedCache, mockOwnerRepository, loggerConfig.getLogger());
+		Set <PetType> petSet = new HashSet<PetType>();
+		petSet.add(petType);
+		assertEquals(petManager.getOwnerPetTypes(ownerId), petSet);
+	}
+
+	//mock & state & mockisty
+	@Test
+	void testGetVisitsBetween() {
+		int petId = 1;
+		Pet pet = new Pet();
+		pet.setId(1);
+		PetTimedCache mockPetTimedCache = mock(PetTimedCache.class);
+		when(mockPetTimedCache.get(petId)).thenReturn(pet);
+		petManager = new PetManager(mockPetTimedCache, ownerRepository, loggerConfig.getLogger());
+		LocalDate end = LocalDate.now();
+		Visit visit = new Visit();
+		visit.setDate(end.minusDays(3));
+		pet.addVisit(visit);
+		LocalDate start = end.minusDays(6);
+		List<Visit> visits = new ArrayList<Visit>();
+		visits.add(visit);
+		assertEquals(petManager.getVisitsBetween(petId, start, end), visits);
 	}
 }
