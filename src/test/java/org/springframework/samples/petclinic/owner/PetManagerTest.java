@@ -83,16 +83,17 @@ class PetManagerTest {
 		Mockito.verify(spyOwnerRepository).findById(id);
 	}
 
-	//mock behavior Mockisty
+	//stub state Classical
 	@Test
 	void testNewPet() {
 
-		Owner mockOwner = Mockito.mock(Owner.class);
+		Owner owner = new Owner();
+		int initialSize = owner.getPets().size();
 
 
-		petManager.newPet(mockOwner);
+		petManager.newPet(owner);
 
-		Mockito.verify(mockOwner).getId();
+		assertEquals(owner.getPets().size(), initialSize+1);
 	}
 
 	//Stub State Classical
@@ -142,6 +143,5 @@ class PetManagerTest {
 		petManager = new PetManager(petTimedCache, mockOwnerRepository, loggerConfig.getLogger());
 
 		assertEquals(owner.getPets(), petManager.getOwnerPets(ownerId));
-
 	}
 }
