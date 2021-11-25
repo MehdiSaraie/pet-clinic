@@ -139,9 +139,9 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.github.mryf32</groupId>
+      <groupId>com.github.mryf323</groupId>
       <artifactId>tractatus</artifactId>
-      <version>1.0.4</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -197,11 +197,11 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <groupId>com.github.mryf32</groupId>
+              <groupId>com.github.mryf323</groupId>
               <artifactId>tractatus</artifactId>
-              <version>1.0.4</version>
+              <version>1.0.3</version>
               <packaging>jar</packaging>
-              <file>${project.basedir}/src/main/resources/lib/tractatus-1.0.4.jar</file>
+              <file>${project.basedir}/src/main/resources/lib/tractatus-1.0.3.jar</file>
             </configuration>
           </execution>
         </executions>
