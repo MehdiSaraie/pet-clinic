@@ -77,38 +77,38 @@ public class PriceCalculatorTest {
 		assertEquals(expectedPrice, actualPrice);
 	}
 
-//	@Test
-//	void test() {
-//		pet1.setBirthDate(LocalDate.now().minusYears(1));
-//		pet2.setBirthDate(LocalDate.now().minusYears(1));
-//		pet3.setBirthDate(LocalDate.now().minusYears(1));
-//		pet4.setBirthDate(LocalDate.now().minusYears(1));
-//		pet5.setBirthDate(LocalDate.now().minusYears(1));
-//
-//		Visit visit = new Visit();
-//		visit.setDate(LocalDate.now().plusDays(100));
-//
-//		pet5.addVisit(visit);
-//
-//		assertThrows()
-//		double actualPrice = calcPrice(new ArrayList<Pet>(Arrays.asList(pet1, pet2, pet3, pet4, pet5)),baseCharge ,basePricePerPet );
-//		double expectedPrice = (basePricePerPet*BASE_RARE_COEF*RARE_INFANCY_COEF*4 + baseCharge) * (2) + basePricePerPet*BASE_RARE_COEF*RARE_INFANCY_COEF;
-//		assertEquals(expectedPrice, actualPrice);
-//	}
+	@Test
+	void test() {
+		pet1.setBirthDate(LocalDate.now().minusYears(1));
+		pet2.setBirthDate(LocalDate.now().minusYears(1));
+		pet3.setBirthDate(LocalDate.now().minusYears(1));
+		pet4.setBirthDate(LocalDate.now().minusYears(1));
+		pet5.setBirthDate(LocalDate.now().minusYears(1));
+
+		Visit visit = new Visit();
+		visit.setDate(LocalDate.now().minusDays(150));
+
+		pet5.addVisit(visit);
+
+		double actualPrice = calcPrice(new ArrayList<Pet>(Arrays.asList(pet1, pet2, pet3, pet4, pet5)),baseCharge ,basePricePerPet );
+		double expectedPrice = (basePricePerPet*BASE_RARE_COEF*RARE_INFANCY_COEF*4 + baseCharge) * (2) + basePricePerPet*BASE_RARE_COEF*RARE_INFANCY_COEF;
+		assertEquals(expectedPrice, actualPrice);
+	}
 
 	@Test
 	void test4(){
 		pet1.setBirthDate(LocalDate.now().minusYears(1));
 		pet2.setBirthDate(LocalDate.now().minusYears(1));
 		pet3.setBirthDate(LocalDate.now().minusYears(1));
-		pet4.setBirthDate(LocalDate.now().minusYears(3));
+		pet4.setBirthDate(LocalDate.now().minusYears(1));
 		pet5.setBirthDate(LocalDate.now().minusYears(3));
 		Pet pet6 = new Pet();
 		pet6.setBirthDate(LocalDate.now().minusYears(3));
 		Pet pet7 = new Pet();
 		pet7.setBirthDate(LocalDate.now().minusYears(3));
 
-		double actualPrice = calcPrice(new ArrayList<Pet>(Arrays.asList(pet1, pet2, pet3, pet4, pet5)),baseCharge ,basePricePerPet );
-		assertEquals(3720.0, actualPrice);
+		double actualPrice = calcPrice(new ArrayList<Pet>(Arrays.asList(pet1, pet2, pet3, pet4, pet5, pet6, pet7)),baseCharge ,basePricePerPet );
+		double expectedPrice = ((basePricePerPet*BASE_RARE_COEF*RARE_INFANCY_COEF*4 + basePricePerPet*BASE_RARE_COEF)*DISCOUNT_PRE_VISIT +baseCharge + basePricePerPet*BASE_RARE_COEF) * DISCOUNT_PRE_VISIT + baseCharge +basePricePerPet*BASE_RARE_COEF;
+		assertEquals(expectedPrice, actualPrice);
 	}
 }
