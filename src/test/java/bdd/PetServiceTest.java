@@ -379,7 +379,7 @@ public class PetServiceTest {
 	}
 
 	@When("I ask for the owner")
-	public void i_ask_whether_it_s_Friday_yet() {
+	public void i_ask_for_the_owner() {
 		actualOwner = petService.findOwner(ownerId);
 	}
 
